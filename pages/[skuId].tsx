@@ -7,8 +7,8 @@ import stripeConfig from '../config/stripe';
 import CheckoutButton from '../components/CheckoutButton';
 
 interface Props {
+  sku: Stripe.Sku;
   prod: Stripe.Product;
-  price: Stripe.Price;
 }
 
 
@@ -17,28 +17,17 @@ export const getStaticPaths: GetStaticPaths = async ( ) => {
     apiVersion: '2020-08-27',
   }); 
 
-  const products = await stripe.products.list();
-  const prices = await stripe.prices.list();
+  const skus = await stripe.skus.list();
 
-  let paths = [];
-
-  const paths1 = products.data.map((prod) => ({
+  const paths = skus.data.map((sku) => ({
     params: {
-      prodId: 0,
+      skuId: sku.id,
     },
   }));
-
-  const paths2 = prices.data.map((price) => ({
-    params: {
-      priceId: 0,
-    },
-  }));
-
-  paths.push(paths1, paths2)
 
   return {
     paths,
-    fallback: false,
+    fallback: true,
   }
 }
 
@@ -48,31 +37,33 @@ export const getStaticProps: GetStaticProps = async ( { params } ) => {
     apiVersion: '2020-08-27',
   }); 
 
-  const { prodId, priceId } = params;
+  const prod = await stripe.products.list();
 
-  const prod = await stripe.products.retrieve(prodId as string);
-  const price = await stripe.prices.retrieve(priceId as string);
+  const { skuId } = params;
+
+  const sku = await stripe.skus.retrieve(skuId as string);
 
   return {
     props: {
+      sku,
       prod,
-      price,
     },
   }
   
 }
 
-const prod: React.FC<Props> = ( { prod, price } ) => {
+const Product: React.FC<Props> = ( { prod, sku } ) => {
   return (
     <>
 
       <div
         className='product-card'
-        key={prod.id}>
+        key={sku.id}
+        >
         
-        {prod.images && (
+        {sku.image && (
           <img
-            src={prod.images[0]}
+            src={sku.image}
             style={{
               width: '100px',
             }}
@@ -82,17 +73,9 @@ const prod: React.FC<Props> = ( { prod, price } ) => {
         <h1>{prod.name}</h1>
         <span>{prod.description}</span>
 
-        {prod.metadata.Tamanho && (
-          <h3>Tamanhos: <strong>{prod.metadata.Tamanho}</strong></h3>
-        )}
-        
-        {prod.metadata.Cor && (
-         <h4>Cor: {prod.metadata.Cor}</h4>
-        )}
+        <h2>{Number(sku.price / 100).toFixed(2)} {sku.currency.toUpperCase()}</h2>
 
-        <h2>R$ {Number(price.unit_amount).toFixed(2)}</h2>
-
-        <CheckoutButton priceId={prod.id} />
+        <CheckoutButton skuId={sku.id} />
 
         <br/>
         <br/>
@@ -106,4 +89,4 @@ const prod: React.FC<Props> = ( { prod, price } ) => {
 }
 
 
-export default prod;
+export default Product;

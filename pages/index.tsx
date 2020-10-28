@@ -7,8 +7,8 @@ import stripeConfig from '../config/stripe';
 
 
 interface Props {
-  products: Stripe.Product[],
-  prices: Stripe.Price[],
+  skus: Stripe.Sku[],
+  prods: Stripe.Product[],
 }
 
 
@@ -17,18 +17,16 @@ export const getStaticProps: GetStaticProps = async () => {
     apiVersion: '2020-08-27',
   }); 
 
-  const products = await stripe.products.list();
-  const prices = await stripe.prices.list();
+  const skus = await stripe.skus.list();
 
   return {
     props: {
-      products: products.data,
-      prices: prices.data,
+      skus: skus.data,
     }
   }
 }
 
-const HomePage: React.FC<Props> = ( { products, prices } ) => {
+const HomePage: React.FC<Props> = ( { skus } ) => {
   return (
     <>
     <h1>Next Stripe Store</h1>
@@ -41,9 +39,9 @@ const HomePage: React.FC<Props> = ( { products, prices } ) => {
           alignContent: 'center',
         }}
       >
-    {products.map((prod) => (
+    {skus.map((sku) => (
         <div
-          key={prod.id}
+          key={sku.id}
           style={{
             display: 'flex',
             flexDirection: 'column',
@@ -57,22 +55,22 @@ const HomePage: React.FC<Props> = ( { products, prices } ) => {
           }}
         >
           
-          {prod.images && (
+          {sku.image && (
             <img
-              src={prod.images[0]}
+              src={sku.image}
               style={{
                 width: '100px',
               }}
             />
           )}
 
-          <h1>{prod.name}</h1>
-          <span>{prod.description}</span>
+          {/* <h1>{sku.name}</h1>
+          <span>{sku.description}</span> */}
 
-        {prices.map((prices) => (
-          <h2>R$ {Number(prices.unit_amount).toFixed(2)}</h2>
-        ))}
-          <Link href={`/${prod.id}`}>Buy</Link>
+
+          <h2>{Number(sku.price / 100).toFixed(2)} {sku.currency.toUpperCase()}</h2>
+
+          <Link href={`/${sku.id}`}>Buy</Link>
 
         </div>
       ))}

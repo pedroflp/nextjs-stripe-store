@@ -2,6 +2,10 @@ import { GetStaticProps } from 'next';
 import Link from 'next/link';
 import React from 'react';
 import Stripe from 'stripe';
+import styled from 'styled-components';
+
+
+import { FiArrowLeft } from 'react-icons/fi';
 
 import stripeConfig from '../config/stripe';
 
@@ -24,10 +28,18 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 }
 
+const Button = styled(Link) `
+  padding: 30px;
+  background: red;
+  border-radius: 30px;
+`
+
 const ProductCard: React.FC<Props> = ( { skus } ) => {
   return (
     <>
-    <Link href='/'>Go Back</Link>
+    <Link href='/'>
+    <FiArrowLeft size={30} /> 
+    </Link>
     <div
         style={{
           display: 'flex',
@@ -65,7 +77,7 @@ const ProductCard: React.FC<Props> = ( { skus } ) => {
 
           <h2>{Number(sku.price / 100).toFixed(2)} {sku.currency.toUpperCase()}</h2>
 
-          <Link href={`/${sku.id}`}>Buy</Link>
+          <Button href={`/${sku.id}`}>Buy</Button>
 
         </div>
       ))}

@@ -5,6 +5,7 @@ import Stripe from 'stripe';
 
 import stripeConfig from '../config/stripe';
 import CheckoutButton from '../components/CheckoutButton';
+import { FiArrowLeft } from 'react-icons/fi';
 
 interface Props {
   sku: Stripe.Sku;
@@ -51,7 +52,9 @@ export const getStaticProps: GetStaticProps = async ( { params } ) => {
 const Product: React.FC<Props> = ( { sku } ) => {
   return (
     <>
-
+    <Link href='/products'>
+      <FiArrowLeft size={30} />
+    </Link>
       <div
         className='product-card'
         key={sku.id}
@@ -71,12 +74,10 @@ const Product: React.FC<Props> = ( { sku } ) => {
 
         <h2>{Number(sku.price / 100).toFixed(2)} {sku.currency.toUpperCase()}</h2>
 
-        <CheckoutButton skuId={sku.id} />
+        <CheckoutButton skuId={sku.id} itemName={sku.attributes.name} />
 
         <br/>
         <br/>
-
-        <Link href='/products'>Go back</Link>
 
       </div>
       

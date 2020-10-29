@@ -8,9 +8,7 @@ import CheckoutButton from '../components/CheckoutButton';
 
 interface Props {
   sku: Stripe.Sku;
-  prod: Stripe.Product;
 }
-
 
 export const getStaticPaths: GetStaticPaths = async ( ) => {
   const stripe = new Stripe(stripeConfig.secretKey, {
@@ -37,8 +35,6 @@ export const getStaticProps: GetStaticProps = async ( { params } ) => {
     apiVersion: '2020-08-27',
   }); 
 
-  const prod = await stripe.products.list();
-
   const { skuId } = params;
 
   const sku = await stripe.skus.retrieve(skuId as string);
@@ -46,14 +42,13 @@ export const getStaticProps: GetStaticProps = async ( { params } ) => {
   return {
     props: {
       sku,
-      prod,
     },
     revalidate: 20,
   }
   
 }
 
-const Product: React.FC<Props> = ( { prod, sku } ) => {
+const Product: React.FC<Props> = ( { sku } ) => {
   return (
     <>
 
@@ -81,7 +76,7 @@ const Product: React.FC<Props> = ( { prod, sku } ) => {
         <br/>
         <br/>
 
-        <Link href='/'>Go back</Link>
+        <Link href='/products'>Go back</Link>
 
       </div>
       

@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import React from 'react';
@@ -50,6 +51,12 @@ export const getStaticProps: GetStaticProps = async ( { params } ) => {
 }
 
 const Product: React.FC<Props> = ( { sku } ) => {
+  const { isFallback } = useRouter();
+
+  if (isFallback) {
+    return <span>Loading products..</span>
+  }
+
   return (
     <>
     <Link href='/products'>

@@ -4,6 +4,8 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import React from 'react';
 import Stripe from 'stripe';
 
+import ReactImageZoom from 'react-image-zoom';
+
 import stripeConfig from '../config/stripe';
 import CheckoutButton from '../components/CheckoutButton';
 import { FiArrowLeft } from 'react-icons/fi';
@@ -62,29 +64,63 @@ const Product: React.FC<Props> = ( { sku } ) => {
     <Link href='/products'>
       <FiArrowLeft size={30} />
     </Link>
+
       <div
-        className='product-card'
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignContent: 'center',
+          alignItems: 'center',
+          width: '900px',
+          maxWidth: '900px',
+          margin: '50px auto',
+
+        }}
         key={sku.id}
         >
         
         {sku.image && (
-          <img
-            src={sku.image}
-            style={{
-              width: '100px',
-            }}
+          <ReactImageZoom img={sku.image}
+          width={600} 
+          height={600}
+          zoomHeight={500}
+          zoomWidth={500}
+          zoomStyle='
+            border: 2px solid black;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0,0,0,0.3);
+            '
            />
         )}
 
-        <h1>{sku.attributes.name}</h1>
-        <span>{sku.attributes.description}</span>
+       <div
+          style={{
+            maxHeight: '400px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            alignContent: 'center',
+            marginLeft: '20px',
+          }}
+       >
+          <h1
+            style={{
+              fontSize: '60px',
+              lineHeight: '50px',
+              margin: '0',
+            }}
+          >{sku.attributes.name}</h1>
+          <span>{sku.attributes.description}</span>
 
-        <h2>{Number(sku.price / 100).toFixed(2)} {sku.currency.toUpperCase()}</h2>
+          <h2
+            style={{
+              fontSize: '40px',
+              margin: '50px 0px',
+            }}
+          >{Number(sku.price / 100)} {sku.currency.toUpperCase()}</h2>
 
-        <CheckoutButton skuId={sku.id} itemName={sku.attributes.name} />
-
-        <br/>
-        <br/>
+          <CheckoutButton skuId={sku.id} itemName={sku.attributes.name} />
+       </div>
 
       </div>
       

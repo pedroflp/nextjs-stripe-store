@@ -28,10 +28,18 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 }
 
-const Button = styled(Link) `
-  padding: 30px;
-  background: red;
-  border-radius: 30px;
+const Button = styled.a `
+  padding: 15px;
+  width: 200px;
+  background: white;
+  border: none;
+  border-radius: 50px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  cursor: pointer;
+  color: black;
+  text-decoration: none;
 `
 
 const ProductCard: React.FC<Props> = ( { skus } ) => {
@@ -40,12 +48,22 @@ const ProductCard: React.FC<Props> = ( { skus } ) => {
     <Link href='/'>
     <FiArrowLeft size={30} /> 
     </Link>
+    
+    <h1
+      style={{
+        fontSize: '60px',
+        margin: '30px auto',
+        textAlign: 'center',
+      }}
+    >Products</h1>
+
     <div
         style={{
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'center',
           alignContent: 'center',
+          flexWrap: 'wrap',
         }}
       >
     {skus.map((sku) => (
@@ -56,11 +74,13 @@ const ProductCard: React.FC<Props> = ( { skus } ) => {
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            padding: '30px',
             border: '1px solid black',
+            borderRadius: '5px',
             width: '300px',
             maxWidth: '300px',
+            maxHeight: '500px',
             margin: '10px',
+            overflow: 'hidden',
           }}
         >
           
@@ -68,16 +88,42 @@ const ProductCard: React.FC<Props> = ( { skus } ) => {
             <img
               src={sku.image}
               style={{
-                width: '200px',
+                maxWidth: '220px',
+                padding: '20px 20px 10px',
               }}
             />
           )}
 
-          <h1>{sku.attributes.name}</h1>
+          <div
+            style={{
+              background: 'black',
+              minWidth: '260px',
+              maxWidth: '260px',
+              minHeight: '245px',
+              maxHeight: '245px',
+              padding: '20px',
+              color: 'white',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-around',
+              alignItems: 'center',
+              textAlign: 'center',
+            }}
+          >
+            <h1
+              style={{
+                margin: '10px 0px 0px',
+              }}
+            >{sku.attributes.name}</h1>
 
-          <h2>{Number(sku.price / 100).toFixed(2)} {sku.currency.toUpperCase()}</h2>
+            <h2
+              style={{
+                margin: '20px',
+              }}
+            ><strong>{Number(sku.price / 100)}</strong> {sku.currency.toUpperCase()}</h2>
 
-          <Button href={`/${sku.id}`}>Buy</Button>
+            <Button href={`/${sku.id}`}>Buy</Button>
+          </div>
 
         </div>
       ))}

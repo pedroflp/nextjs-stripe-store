@@ -1,5 +1,17 @@
 import Link from 'next/link';
 import React from 'react';
+import styled from 'styled-components';
+import Alert from '../components/Alert';
+
+const Button = styled.a `
+  padding: 5px;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  cursor: pointer;
+  color: black;
+  text-decoration: none;
+  border-bottom: 1px solid black;
+`
 
 const HomePage: React.FC = () => {
   return (
@@ -27,8 +39,7 @@ const HomePage: React.FC = () => {
           >
             <span
               style={{
-                fontSize: '30px',
-                fontWeight: '100',
+                fontSize: '20px',
                 width: '100px',
                 marginBottom: '20px', 
                 transform: 'rotate(-90deg)',
@@ -42,8 +53,10 @@ const HomePage: React.FC = () => {
             }}>Welcome to the <strong>06a.m. T-Shirts</strong>!</h1>
           </div>
 
-        <Link href='/products'>List Products</Link>
+        <Button href='/products'>List Products</Button>
       </div>
+
+      <Alert />
 
     </>
   )

@@ -28,8 +28,20 @@ const CheckoutButton: React.FC<Props> = ( { skuId, itemName } ) => {
     }
   }
   return (
-    <button role='link' onClick={handleClick}>
-      Buy
+    <button
+    style={{
+      letterSpacing: '5px',
+      textTransform: 'uppercase',
+      padding: '20px 40px',
+      background: 'black',
+      color: 'white',
+      border: 'none',
+      borderRadius: '50px',
+      cursor: 'pointer',
+      outline: 'none',
+    }}
+    role='link' onClick={handleClick}>
+      Checkout
     </button>
   );
 }

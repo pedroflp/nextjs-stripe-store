@@ -48,6 +48,7 @@ export const getStaticProps: GetStaticProps = async ( { params } ) => {
       sku,
       prod,
     },
+    revalidate: 20,
   }
   
 }
@@ -70,8 +71,8 @@ const Product: React.FC<Props> = ( { prod, sku } ) => {
            />
         )}
 
-        <h1>{prod.name}</h1>
-        <span>{prod.description}</span>
+        <h1>{sku.attributes.name}</h1>
+        <span>{sku.attributes.description}</span>
 
         <h2>{Number(sku.price / 100).toFixed(2)} {sku.currency.toUpperCase()}</h2>
 

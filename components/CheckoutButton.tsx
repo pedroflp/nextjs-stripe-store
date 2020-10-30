@@ -1,9 +1,7 @@
 import React from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 
-import stripeConfig from '../config/stripe';
-
-const stripePromisse = loadStripe(stripeConfig.publicKey);
+const stripePromisse = loadStripe(process.env.PUBLIC_KEY);
 
 interface Props {
   skuId: string;

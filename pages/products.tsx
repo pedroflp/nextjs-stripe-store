@@ -4,18 +4,14 @@ import React from 'react';
 import Stripe from 'stripe';
 import styled from 'styled-components';
 
-
 import { FiArrowLeft } from 'react-icons/fi';
-
-import stripeConfig from '../config/stripe';
-
 
 interface Props {
   skus: Stripe.Sku[];
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const stripe = new Stripe(stripeConfig.secretKey, {
+  const stripe = new Stripe(process.env.SECRET_KEY, {
     apiVersion: '2020-08-27',
   }); 
 

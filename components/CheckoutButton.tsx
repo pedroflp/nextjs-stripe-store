@@ -19,8 +19,8 @@ const CheckoutButton: React.FC<Props> = ( { skuId, itemName } ) => {
         sku: skuId,
         quantity: 1,
       }],
-      successUrl: `http://localhost:3000/success?itemName=${itemName}&skuId=${skuId}`,
-      cancelUrl: `http://localhost:3000/cancel?itemName=${itemName}&skuId=${skuId}`,
+      successUrl: `http://06am.vercel.app/success?itemName=${itemName}&skuId=${skuId}`,
+      cancelUrl: `http://06am.vercel.app/cancel?itemName=${itemName}&skuId=${skuId}`,
     });
 
     if (error){

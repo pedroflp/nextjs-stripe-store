@@ -6,6 +6,7 @@ import Stripe from 'stripe';
 
 import ReactImageZoom from 'react-image-zoom';
 
+import stripeConfig from '../config/stripe';
 import CheckoutButton from '../components/CheckoutButton';
 import { FiArrowLeft } from 'react-icons/fi';
 
@@ -14,7 +15,7 @@ interface Props {
 }
 
 export const getStaticPaths: GetStaticPaths = async ( ) => {
-  const stripe = new Stripe(process.env.SECRET_KEY, {
+  const stripe = new Stripe(stripeConfig.secretKey, {
     apiVersion: '2020-08-27',
   }); 
 
@@ -34,7 +35,7 @@ export const getStaticPaths: GetStaticPaths = async ( ) => {
 
 
 export const getStaticProps: GetStaticProps = async ( { params } ) => {
-  const stripe = new Stripe(process.env.SECRET_KEY, {
+  const stripe = new Stripe(stripeConfig.secretKey, {
     apiVersion: '2020-08-27',
   }); 
 
@@ -85,7 +86,6 @@ const Product: React.FC<Props> = ( { sku } ) => {
           zoomHeight={500}
           zoomWidth={500}
           zoomStyle='
-            background: white;
             border: 2px solid black;
             border-radius: 10px;
             box-shadow: 0px 0px 20px rgba(0,0,0,0.3);
